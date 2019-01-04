@@ -4,12 +4,14 @@ class Landing extends Component {
   render() {
     return (
       <div style={{ height: '75vh' }} className="container valign-wrapper">
-        <div>
-          <div>
+        <div className="row">
+          <div className="col s12 center-align">
             <h4>
-              <b>Build</b> a login/auth app with the MERN stack from scratch
+              <b>Build</b> a login/auth app with the{' '}
+              <span style={{ fontFamily: 'monospace' }}>MERN</span> stack from
+              scratch
             </h4>
-            <p>
+            <p className="flow-text grey-text text-darken-1">
               Create a (minimal) full-stack app with user authentication via
               passport and JWTs
             </p>
@@ -20,6 +22,7 @@ class Landing extends Component {
                 borderRadius: '3px',
                 letterSpacing: '1.5px',
               }}
+              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               Register
             </a>
@@ -30,6 +33,7 @@ class Landing extends Component {
                 borderRadius: '3px',
                 letterSpacing: '1.5px',
               }}
+              className="btn btn-large waves-effect white hoverable black-text"
             >
               Log In
             </a>
