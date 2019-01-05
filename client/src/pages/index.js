@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
+// import { Link } from 'gatsby'
 
 import "materialize-css/dist/css/materialize.min.css"
 import "materialize-css/dist/js/materialize.min.js"
@@ -11,12 +11,10 @@ import Landing from '../components/Landing'
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people</h1>
     <Landing />
 
     <span className="material-icons" />
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }} />
-    <Link to="/page-2/">Go to page 2</Link>
   </Layout>
 )
 
