@@ -37,4 +37,8 @@ module.exports = {
     // To learn more, visit: https://gatsby.app/offline
     // 'gatsby-plugin-offline',
   ],
+  proxy: {
+    prefix: '/api',
+    url: 'http://localhost:5000',
+  },
 }
