@@ -19,11 +19,11 @@ class Register extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
     if (nextProps.errors) {
-      this.setState({
+      return {
         errors: nextProps.errors,
-      })
+      }
     }
   }
 

@@ -18,14 +18,14 @@ class Login extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       navigate('/dashboard') // push user to dashboard when they login
     }
     if (nextProps.errors) {
-      this.setState({
+      return {
         errors: nextProps.errors,
-      })
+      }
     }
   }
 
