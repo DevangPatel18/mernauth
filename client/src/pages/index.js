@@ -1,16 +1,39 @@
 import React from 'react'
-// import { Link } from 'gatsby'
 
 import 'materialize-css/dist/css/materialize.min.css'
 import 'materialize-css/dist/js/materialize.min.js'
 import Layout from '../components/layout'
-// import Image from '../components/image'
 import SEO from '../components/seo'
 import Landing from '../components/Landing'
-import { Router } from '@reach/router'
+import { navigate, Router } from '@reach/router'
 import Register from '../components/Register'
 import Login from '../components/login'
 import Dashboard from '../components/dashboard'
+import PrivateRoute from '../components/PrivateRoute'
+
+import jwt_decode from 'jwt-decode'
+import setAuthToken from '../utils/setAuthToken'
+import { setCurrentUser, logoutUser } from '../actions/authActions'
+import store from '../store'
+
+// Check for token to keep user logged in
+if (localStorage.jwtToken) {
+  // Set auth token header auth
+  const token = localStorage.jwtToken
+  setAuthToken(token)
+  // Decode token and get user info and exp
+  const decoded = jwt_decode(token)
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded))
+  // Check for expired token
+  const currentTime = Date.now() / 1000 // to get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser())
+    // Redirect to login
+    navigate(`/login`)
+  }
+}
 
 const IndexPage = () => (
   <Layout>
@@ -19,7 +42,7 @@ const IndexPage = () => (
       <Landing path="/" />
       <Register path="/register" />
       <Login path="/login" />
-      <Dashboard path="/dashboard" />
+      <PrivateRoute path="/dashboard" component={Dashboard} />
     </Router>
     <span className="material-icons" />
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }} />
