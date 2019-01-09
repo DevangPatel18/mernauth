@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { registerUser } from '../actions/authActions'
@@ -14,6 +14,13 @@ class Register extends Component {
       password: '',
       password2: '',
       errors: {},
+    }
+  }
+
+  componentDidMount() {
+    // If logged in and user navigates to Register page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      navigate('/dashboard')
     }
   }
 

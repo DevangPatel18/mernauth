@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { navigate, Redirect } from '@reach/router'
+import { navigate } from 'gatsby'
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
   if (!auth.isAuthenticated) {
     navigate(`./login`)
-    // return null;
-    return <Redirect to="login" noThrow/>;
+    return null
   }
 
   return <Component {...rest} props={auth} />

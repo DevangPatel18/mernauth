@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { loginUser } from '../actions/authActions'
-import { navigate } from '@reach/router'
 import classnames from 'classnames'
 
 class Login extends Component {
@@ -13,6 +12,13 @@ class Login extends Component {
       email: '',
       password: '',
       errors: {},
+    }
+  }
+
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      navigate('/dashboard')
     }
   }
 
