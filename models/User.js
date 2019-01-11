@@ -14,10 +14,13 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  data: {
+  date: {
     type: Date,
     default: Date.now,
   },
+  favItems: {
+    type: Array,
+  }
 });
 
 module.exports = User = mongoose.model('users', UserSchema);
