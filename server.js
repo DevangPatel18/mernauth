@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const { loginRequired } = require('./middleware/auth');
 
 dotenv.config();
 
@@ -34,7 +35,7 @@ require('./config/passport')(passport);
 
 app.use('/api/users', users);
 
-app.use('/api/items', items);
+app.use('/api/items', loginRequired, items);
 
 const port = process.env.PORT || 5000;
 
