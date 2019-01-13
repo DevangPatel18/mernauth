@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../../models/User');
 
+router.get('/itemlist/:userId', async (req, res, data) => {
+  let userId = req.params.userId;
+  let UsersInfo = await Users.findById(userId);
+  let { favItems } = UsersInfo;
+
+  return res.status(200).json(favItems);
+});
+
 router.put('/itemlist/:userId/', async (req, res, data) => {
   let userId = req.params.userId;
   let UsersInfo = await Users.findById(userId);
