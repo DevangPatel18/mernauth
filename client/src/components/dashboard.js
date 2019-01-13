@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { navigate } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logoutUser } from '../actions/authActions'
@@ -33,6 +34,21 @@ class Dashboard extends Component {
               className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               Logout
+            </button>
+            <button
+              style={{
+                marginLeft: '2rem',
+                width: '150px',
+                borderRadius: '3px',
+                letterSpacing: '1.5px',
+                marginTop: '1rem',
+              }}
+              onClick={() => {
+                navigate('/favitems')
+              }}
+              className="btn btn-large waves-effect white hoverable black-text"
+            >
+              Favitems
             </button>
           </div>
         </div>

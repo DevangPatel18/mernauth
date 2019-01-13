@@ -10,6 +10,7 @@ import { navigate } from 'gatsby'
 import Register from '../components/Register'
 import Login from '../components/login'
 import Dashboard from '../components/dashboard'
+import FavItems from '../components/FavItems'
 import PrivateRoute from '../components/PrivateRoute'
 
 import jwt_decode from 'jwt-decode'
@@ -44,6 +45,7 @@ const IndexPage = () => (
       <Register path="/register" />
       <Login path="/login" />
       <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute path="/favitems" component={FavItems} />
     </Router>
     <span className="material-icons" />
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }} />
