@@ -8,6 +8,7 @@ class FavItems extends Component {
   constructor() {
     super()
     this.state = {
+      newItem: '',
       favItems: [],
     }
   }
@@ -17,6 +18,22 @@ class FavItems extends Component {
     const response = await axios.get(`/api/items/itemlist/${user.id}`)
     this.setState({ favItems: response.data })
   }
+
+  onChange = e => {
+    this.setState({ [e.target.id]: e.target.value })
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+
+    const { user } = this.props.auth
+    axios.put(`/api/items/itemlist/${user.id}`, {
+      item: this.state.newItem,
+    })
+
+    this.setState({ newItem: '' })
+  }
+
   render() {
     return (
       <div style={{ height: '75vh' }} className="container valign-wrapper">
@@ -25,6 +42,18 @@ class FavItems extends Component {
             <h4>Create a favorite list here!</h4>
             <p className="flow-text grey-text text-darken-1" />
             <br />
+            <form noValidate onSubmit={this.onSubmit}>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.newItem}
+                  id="newItem"
+                  type="text"
+                />
+                <label htmlFor="newItem">New Item</label>
+              </div>
+            </form>
+
             <ul className="collection">
               {this.state.favItems.map((items, i) => (
                 <li className="collection-item" key={i}>
