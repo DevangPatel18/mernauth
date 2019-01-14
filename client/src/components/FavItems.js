@@ -15,7 +15,7 @@ class FavItems extends Component {
 
   async componentDidMount() {
     const { user } = this.props.auth
-    const response = await axios.get(`/api/items/itemlist/${user.id}`)
+    const response = await axios.get(`/api/items/${user.id}`)
     this.setState({ favItems: response.data })
   }
 
@@ -27,7 +27,7 @@ class FavItems extends Component {
     e.preventDefault()
 
     const { user } = this.props.auth
-    axios.put(`/api/items/itemlist/${user.id}`, {
+    axios.put(`/api/items/${user.id}`, {
       item: this.state.newItem,
     })
 

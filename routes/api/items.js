@@ -2,54 +2,70 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../../models/User');
 
-router.get('/itemlist/:userId', async (req, res, data) => {
-  let userId = req.params.userId;
-  let UsersInfo = await Users.findById(userId);
-  let { favItems } = UsersInfo;
-
-  return res.status(200).json(favItems);
+router.get('/:userId', async (req, res, next) => {
+  try {
+    let userId = req.params.userId;
+    let UsersInfo = await Users.findById(userId);
+    return res.status(200).json(UsersInfo.favItems);
+  } catch (err) {
+    return next(err);
+  }
 });
 
-router.put('/itemlist/:userId/', async (req, res, data) => {
-  let userId = req.params.userId;
-  let UsersInfo = await Users.findById(userId);
-  let { favItems } = UsersInfo;
-  let { item } = req.body;
-  let itemPos = favItems.indexOf(item);
-  let err;
+router.put('/:userId/', async (req, res, next) => {
+  try {
+    let userId = req.params.userId;
+    let UsersInfo = await Users.findById(userId);
+    let { favItems } = UsersInfo;
+    let { item } = req.body;
+    let itemPos = favItems.indexOf(item);
+    let err;
 
-  if (itemPos === -1) {
-    favItems.push(item);
-  } else {
-    err = 'Item already favorited.';
-  }
+    if (!item) {
+      return res.status(400).send('Item not specified.');
+    }
 
-  if (!err) {
-    UsersInfo.save();
-    return res.status(200).send('Updated favItems');
+    if (itemPos === -1) {
+      favItems.push(item);
+    } else {
+      return res.status(400).send('Item already favorited.');
+    }
+
+    if (!err) {
+      UsersInfo.save();
+      return res.status(200).send('Updated favItems');
+    }
+  } catch (err) {
+    return next(err);
   }
-  return res.status(400).send(err);
 });
 
-router.delete('/itemlist/:userId/', async (req, res, data) => {
-  let userId = req.params.userId;
-  let UsersInfo = await Users.findById(userId);
-  let { favItems } = UsersInfo;
-  let { item } = req.body;
-  let itemPos = favItems.indexOf(item);
-  let err;
+router.delete('/:userId/', async (req, res, next) => {
+  try {
+    let userId = req.params.userId;
+    let UsersInfo = await Users.findById(userId);
+    let { favItems } = UsersInfo;
+    let { item } = req.body;
+    let itemPos = favItems.indexOf(item);
+    let err;
 
-  if (itemPos !== -1) {
-    favItems.splice(itemPos, 1);
-  } else {
-    err = 'Item not in list to begin with.';
-  }
+    if (!item) {
+      return res.status(400).send('Item not specified.');
+    }
 
-  if (!err) {
-    UsersInfo.save();
-    return res.status(200).send('Updated favItems');
+    if (itemPos !== -1) {
+      favItems.splice(itemPos, 1);
+    } else {
+      return res.status(400).send('Item not in list to begin with.');
+    }
+
+    if (!err) {
+      UsersInfo.save();
+      return res.status(200).send('Updated favItems');
+    }
+  } catch (err) {
+    return next(err);
   }
-  return res.status(400).send(err);
 });
 
 module.exports = router;
