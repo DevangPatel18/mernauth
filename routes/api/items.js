@@ -40,29 +40,20 @@ router.put('/:userId/', async (req, res, next) => {
   }
 });
 
-router.delete('/:userId/', async (req, res, next) => {
+router.delete('/:userId/:itemIndex', async (req, res, next) => {
   try {
-    let userId = req.params.userId;
+    let { userId, itemIndex } = req.params;
     let UsersInfo = await Users.findById(userId);
     let { favItems } = UsersInfo;
-    let { item } = req.body;
-    let itemPos = favItems.indexOf(item);
-    let err;
 
-    if (!item) {
+    if (!itemIndex) {
       return res.status(400).send('Item not specified.');
     }
 
-    if (itemPos !== -1) {
-      favItems.splice(itemPos, 1);
-    } else {
-      return res.status(400).send('Item not in list to begin with.');
-    }
+    favItems.splice(parseInt(itemIndex), 1);
 
-    if (!err) {
-      UsersInfo.save();
-      return res.status(200).send('Updated favItems');
-    }
+    UsersInfo.save();
+    return res.status(200).send('Updated favItems');
   } catch (err) {
     return next(err);
   }

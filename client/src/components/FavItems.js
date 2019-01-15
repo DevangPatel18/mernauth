@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getItems, addItems } from '../actions/itemActions'
+import { getItems, addItems, removeItems } from '../actions/itemActions'
 
 class FavItems extends Component {
   constructor() {
@@ -30,6 +30,11 @@ class FavItems extends Component {
     this.setState({ newItem: '' })
   }
 
+  onRemove = item => {
+    const { user } = this.props.auth
+    this.props.removeItems(user.id, item)
+  }
+
   render() {
     return (
       <div style={{ height: '75vh' }} className="container valign-wrapper">
@@ -51,9 +56,15 @@ class FavItems extends Component {
             </form>
 
             <ul className="collection">
-              {this.props.items.map((items, i) => (
+              {this.props.items.map((item, i) => (
                 <li className="collection-item" key={i}>
-                  {items}
+                  {item}
+                  <span
+                    style={{ float: 'right', cursor: 'pointer' }}
+                    onClick={() => this.onRemove(i)}
+                  >
+                    🗑
+                  </span>
                 </li>
               ))}
             </ul>
@@ -77,6 +88,7 @@ class FavItems extends Component {
 FavItems.propTypes = {
   getItems: PropTypes.func.isRequired,
   addItems: PropTypes.func.isRequired,
+  removeItems: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 }
 
@@ -87,5 +99,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getItems, addItems }
+  { getItems, addItems, removeItems }
 )(FavItems)
