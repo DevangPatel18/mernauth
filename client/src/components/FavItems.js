@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import { getItems } from '../actions/itemActions'
+import { getItems, addItems } from '../actions/itemActions'
 
 class FavItems extends Component {
   constructor() {
@@ -26,9 +25,7 @@ class FavItems extends Component {
     e.preventDefault()
 
     const { user } = this.props.auth
-    axios.put(`/api/items/${user.id}`, {
-      item: this.state.newItem,
-    })
+    this.props.addItems(user.id, this.state.newItem)
 
     this.setState({ newItem: '' })
   }
@@ -79,6 +76,7 @@ class FavItems extends Component {
 
 FavItems.propTypes = {
   getItems: PropTypes.func.isRequired,
+  addItems: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 }
 
@@ -89,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getItems }
+  { getItems, addItems }
 )(FavItems)
