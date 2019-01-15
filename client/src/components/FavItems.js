@@ -3,20 +3,19 @@ import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import { getItems } from '../actions/itemActions'
 
 class FavItems extends Component {
   constructor() {
     super()
     this.state = {
       newItem: '',
-      favItems: [],
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { user } = this.props.auth
-    const response = await axios.get(`/api/items/${user.id}`)
-    this.setState({ favItems: response.data })
+    this.props.getItems(user.id)
   }
 
   onChange = e => {
@@ -55,7 +54,7 @@ class FavItems extends Component {
             </form>
 
             <ul className="collection">
-              {this.state.favItems.map((items, i) => (
+              {this.props.items.map((items, i) => (
                 <li className="collection-item" key={i}>
                   {items}
                 </li>
@@ -78,13 +77,17 @@ class FavItems extends Component {
   }
 }
 
-// FavItems.propTypes = {
-//   // user: PropTypes.object.isRequired,
-// }
+FavItems.propTypes = {
+  getItems: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+}
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  items: state.items,
 })
 
-export default connect(mapStateToProps)(FavItems)
-// export default FavItems
+export default connect(
+  mapStateToProps,
+  { getItems }
+)(FavItems)
