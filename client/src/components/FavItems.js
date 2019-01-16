@@ -9,12 +9,21 @@ class FavItems extends Component {
     super()
     this.state = {
       newItem: '',
+      errors: {},
     }
   }
 
   componentDidMount() {
     const { user } = this.props.auth
     this.props.getItems(user.id)
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.errors) {
+      return {
+        errors: nextProps.errors,
+      }
+    }
   }
 
   onChange = e => {
@@ -36,6 +45,7 @@ class FavItems extends Component {
   }
 
   render() {
+    const { errors } = this.state
     return (
       <div style={{ height: '75vh' }} className="container valign-wrapper">
         <div className="row">
@@ -52,6 +62,7 @@ class FavItems extends Component {
                   type="text"
                 />
                 <label htmlFor="newItem">New Item</label>
+                <span className="red-text">{errors.message}</span>
               </div>
             </form>
 
@@ -90,11 +101,13 @@ FavItems.propTypes = {
   addItems: PropTypes.func.isRequired,
   removeItems: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
   items: state.items,
+  errors: state.errors,
 })
 
 export default connect(

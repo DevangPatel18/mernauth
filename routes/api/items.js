@@ -19,22 +19,19 @@ router.put('/:userId/', async (req, res, next) => {
     let { favItems } = UsersInfo;
     let { item } = req.body;
     let itemPos = favItems.indexOf(item);
-    let err;
 
     if (!item) {
-      return res.status(400).send('Item not specified.');
+      return res.status(400).json({ message: 'Item not specified.' });
     }
 
     if (itemPos === -1) {
       favItems.push(item);
     } else {
-      return res.status(400).send('Item already favorited.');
+      return res.status(400).json({ message: 'Item already favorited.' });
     }
 
-    if (!err) {
-      UsersInfo.save();
-      return res.status(200).send('Updated favItems');
-    }
+    UsersInfo.save();
+    return res.status(200).send('Updated favItems');
   } catch (err) {
     return next(err);
   }
@@ -45,10 +42,6 @@ router.delete('/:userId/:itemIndex', async (req, res, next) => {
     let { userId, itemIndex } = req.params;
     let UsersInfo = await Users.findById(userId);
     let { favItems } = UsersInfo;
-
-    if (!itemIndex) {
-      return res.status(400).send('Item not specified.');
-    }
 
     favItems.splice(parseInt(itemIndex), 1);
 
