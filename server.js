@@ -9,6 +9,7 @@ dotenv.config();
 
 const users = require('./routes/api/users');
 const items = require('./routes/api/items');
+const sendResetEmail = require('./routes/api/sendResetEmail');
 const app = express();
 
 app.use(
@@ -36,6 +37,8 @@ require('./config/passport')(passport);
 app.use('/api/users', users);
 
 app.use('/api/items', loginRequired, items);
+
+app.use('/api/sendResetEmail', sendResetEmail);
 
 const port = process.env.PORT || 5000;
 

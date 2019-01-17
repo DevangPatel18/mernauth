@@ -1,4 +1,9 @@
-import { SET_CURRENT_USER, USER_LOADING, PASSWORD_RESET } from '../actions/types'
+import {
+  SET_CURRENT_USER,
+  USER_LOADING,
+  PASSWORD_RESET,
+  SEND_EMAIL,
+} from '../actions/types'
 const isEmpty = require('is-empty')
 const initialState = {
   isAuthenticated: false,
@@ -19,6 +24,11 @@ export default function(state = initialState, action) {
         loading: true,
       }
     case PASSWORD_RESET:
+      return {
+        ...state,
+        message: action.message,
+      }
+    case SEND_EMAIL:
       return {
         ...state,
         message: action.message,

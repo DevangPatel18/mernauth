@@ -1,7 +1,7 @@
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
 import jwt_decode from 'jwt-decode'
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from './types'
+import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, SEND_EMAIL } from './types'
 import { navigate } from '@reach/router'
 
 // Register User
@@ -66,4 +66,19 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false)
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
+}
+
+export const sendResetEmail = email => dispatch => {
+  axios
+    .post('/api/sendResetEmail', email)
+    .then(res => {
+      const { message } = res.data
+      dispatch({ type: SEND_EMAIL, message })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    )
 }

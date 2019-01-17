@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, navigate } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loginUser } from '../actions/authActions'
+import { sendResetEmail } from '../actions/authActions'
 import classnames from 'classnames'
 
 class RequestReset extends Component {
@@ -43,7 +43,7 @@ class RequestReset extends Component {
       email: this.state.email,
     }
 
-    this.props.loginUser(userData)
+    this.props.sendResetEmail(userData)
   }
 
   render() {
@@ -74,10 +74,8 @@ class RequestReset extends Component {
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
+                <span className="red-text">{errors.message}</span>
+                <span className="green-text">{this.props.auth.message}</span>
               </div>
               <div className="col s12" style={{ paddingLeft: '11.250px' }}>
                 <button
@@ -93,6 +91,7 @@ class RequestReset extends Component {
                 </button>
               </div>
             </form>
+            <br />
           </div>
         </div>
       </div>
@@ -101,7 +100,7 @@ class RequestReset extends Component {
 }
 
 RequestReset.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+  sendResetEmail: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 }
@@ -113,5 +112,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { sendResetEmail }
 )(RequestReset)
