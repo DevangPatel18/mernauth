@@ -74,8 +74,11 @@ class RequestReset extends Component {
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.message}</span>
-                <span className="green-text">{this.props.auth.message}</span>
+                {Object.keys(errors).length !== 0 ? (
+                  <span className="red-text">{errors.message}</span>
+                ) : (
+                  <span className="green-text">{this.props.auth.message}</span>
+                )}
               </div>
               <div className="col s12" style={{ paddingLeft: '11.250px' }}>
                 <button

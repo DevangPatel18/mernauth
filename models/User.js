@@ -20,7 +20,13 @@ const UserSchema = new Schema({
   },
   favItems: {
     type: Array,
-  }
+  },
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: Date,
+  },
 });
 
 module.exports = User = mongoose.model('users', UserSchema);
