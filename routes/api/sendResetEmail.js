@@ -19,7 +19,7 @@ router.post('/', async (req, res, next) => {
 
     UserReset.updateOne({
       resetPasswordToken: token,
-      resetPasswordExpires: Date.now() + 360000,
+      resetPasswordExpires: Date.now() + 3600000,
     });
 
     const transporter = await nodemail.createTransport({

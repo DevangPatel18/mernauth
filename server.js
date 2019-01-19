@@ -10,6 +10,7 @@ dotenv.config();
 const users = require('./routes/api/users');
 const items = require('./routes/api/items');
 const sendResetEmail = require('./routes/api/sendResetEmail');
+const resetUrlStatus = require('./routes/api/resetUrlStatus');
 const app = express();
 
 app.use(
@@ -39,6 +40,8 @@ app.use('/api/users', users);
 app.use('/api/items', loginRequired, items);
 
 app.use('/api/sendResetEmail', sendResetEmail);
+
+app.use('/api/resetUrlStatus', resetUrlStatus);
 
 const port = process.env.PORT || 5000;
 
