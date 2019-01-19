@@ -68,6 +68,7 @@ export const logoutUser = () => dispatch => {
   dispatch(setCurrentUser({}))
 }
 
+// Send Password reset email
 export const sendResetEmail = email => dispatch => {
   axios
     .post('/api/sendResetEmail', email)
@@ -81,4 +82,11 @@ export const sendResetEmail = email => dispatch => {
         payload: err.response.data,
       })
     )
+}
+
+// Check for valid password reset page url
+export const tokenCheck = tokenUrl => dispatch => {
+  axios.get(`/api/resetUrlStatus/${tokenUrl}`).catch(err => {
+    dispatch({ type: GET_ERRORS, payload: err.response.data })
+  })
 }

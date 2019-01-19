@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
+import { navigate } from 'gatsby'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+import { tokenCheck } from '../actions/authActions'
 
 class PasswordReset extends Component {
   constructor() {
@@ -13,7 +17,18 @@ class PasswordReset extends Component {
 
   async componentDidMount() {
     // Run action creator that checks for valid reset token
-    // ResetTokenCheck
+    this.props.tokenCheck(this.props.resetToken)
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      navigate('/dashboard') // push user to dashboard when they access password reset page
+    }
+    if (nextProps.errors) {
+      return {
+        errors: nextProps.errors,
+      }
+    }
   }
 
   onChange = e => {
@@ -28,6 +43,9 @@ class PasswordReset extends Component {
 
   render() {
     const { errors } = this.state
+
+    if (errors.message)
+      return <span className="red-text">{errors.message}</span>
 
     return (
       <div className="container">
@@ -90,4 +108,18 @@ class PasswordReset extends Component {
   }
 }
 
-export default PasswordReset
+PasswordReset.propTypes = {
+  tokenCheck: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+})
+
+export default connect(
+  mapStateToProps,
+  { tokenCheck }
+)(PasswordReset)
