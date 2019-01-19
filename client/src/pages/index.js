@@ -12,6 +12,7 @@ import Login from '../components/login'
 import Dashboard from '../components/dashboard'
 import FavItems from '../components/FavItems'
 import RequestReset from '../components/RequestReset'
+import PasswordReset from '../components/PasswordReset'
 import PrivateRoute from '../components/PrivateRoute'
 
 import jwt_decode from 'jwt-decode'
@@ -46,6 +47,7 @@ const IndexPage = () => (
       <Register path="/register" />
       <Login path="/login" />
       <RequestReset path="/requestreset" />
+      <PasswordReset path="/passwordreset/:resetToken" />
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/favitems" component={FavItems} />
     </Router>
