@@ -1,7 +1,13 @@
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
 import jwt_decode from 'jwt-decode'
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, SEND_EMAIL } from './types'
+import {
+  GET_ERRORS,
+  SET_CURRENT_USER,
+  USER_LOADING,
+  SEND_EMAIL,
+  PASSWORD_RESET,
+} from './types'
 import { navigate } from '@reach/router'
 
 // Register User
@@ -89,4 +95,17 @@ export const tokenCheck = tokenUrl => dispatch => {
   axios.get(`/api/resetUrlStatus/${tokenUrl}`).catch(err => {
     dispatch({ type: GET_ERRORS, payload: err.response.data })
   })
+}
+
+// Reset User password
+export const passwordReset = resetData => dispatch => {
+  const { userData, token } = resetData
+
+  axios
+    .put(`/api/passwordReset/${token}`, userData)
+    .then(res => {
+      const { message } = res.data
+      dispatch({ type: PASSWORD_RESET, message })
+    })
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }))
 }

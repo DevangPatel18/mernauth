@@ -3,7 +3,7 @@ import { navigate } from 'gatsby'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
-import { tokenCheck } from '../actions/authActions'
+import { tokenCheck, passwordReset } from '../actions/authActions'
 
 class PasswordReset extends Component {
   constructor() {
@@ -38,7 +38,12 @@ class PasswordReset extends Component {
   updatePassword = e => {
     e.preventDefault()
     // Run action creator that validates password
-    // PasswordReset
+    const userData = {
+      password: this.state.password,
+      password2: this.state.password2,
+    }
+    const token = this.props.resetToken
+    this.props.passwordReset({ userData, token })
   }
 
   render() {
@@ -87,6 +92,7 @@ class PasswordReset extends Component {
                 <label htmlFor="password2">Confirm Password</label>
                 <span className="red-text">{errors.password2}</span>
               </div>
+              <span className="green-text">{this.props.auth.message}</span>
               <div className="col s12" style={{ paddingLeft: '11.250px' }}>
                 <button
                   style={{
@@ -110,6 +116,7 @@ class PasswordReset extends Component {
 
 PasswordReset.propTypes = {
   tokenCheck: PropTypes.func.isRequired,
+  passwordReset: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 }
@@ -121,5 +128,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { tokenCheck }
+  { tokenCheck, passwordReset }
 )(PasswordReset)
