@@ -92,6 +92,9 @@ class PasswordReset extends Component {
                 <label htmlFor="password2">Confirm Password</label>
                 <span className="red-text">{errors.password2}</span>
               </div>
+              <span className="blue-text">
+                {this.props.auth.loading && 'Loading...'}
+              </span>
               <span className="green-text">{this.props.auth.message}</span>
               <div className="col s12" style={{ paddingLeft: '11.250px' }}>
                 <button

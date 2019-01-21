@@ -3,6 +3,7 @@ import {
   USER_LOADING,
   PASSWORD_RESET,
   SEND_EMAIL,
+  GET_ERRORS,
 } from '../actions/types'
 const isEmpty = require('is-empty')
 const initialState = {
@@ -27,11 +28,17 @@ export default function(state = initialState, action) {
       return {
         ...state,
         message: action.message,
+        loading: false,
       }
     case SEND_EMAIL:
       return {
         ...state,
         message: action.message,
+      }
+    case GET_ERRORS:
+      return {
+        ...state,
+        loading: false,
       }
     default:
       return state

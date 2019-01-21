@@ -76,6 +76,7 @@ export const logoutUser = () => dispatch => {
 
 // Send Password reset email
 export const sendResetEmail = email => dispatch => {
+  dispatch({ type: USER_LOADING })
   axios
     .post('/api/sendResetEmail', email)
     .then(res => {
@@ -99,6 +100,7 @@ export const tokenCheck = tokenUrl => dispatch => {
 
 // Reset User password
 export const passwordReset = resetData => dispatch => {
+  dispatch(setUserLoading())
   const { userData, token } = resetData
 
   axios
@@ -107,5 +109,7 @@ export const passwordReset = resetData => dispatch => {
       const { message } = res.data
       dispatch({ type: PASSWORD_RESET, message })
     })
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }))
+    .catch(err => {
+      dispatch({ type: GET_ERRORS, payload: err.response.data })
+    })
 }
