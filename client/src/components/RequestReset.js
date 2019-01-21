@@ -74,6 +74,9 @@ class RequestReset extends Component {
                   })}
                 />
                 <label htmlFor="email">Email</label>
+                <span className="blue-text">
+                  {this.props.auth.loading && 'Processing...'}
+                </span>
                 {Object.keys(errors).length !== 0 ? (
                   <span className="red-text">{errors.message}</span>
                 ) : (

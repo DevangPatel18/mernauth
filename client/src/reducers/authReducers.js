@@ -34,6 +34,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         message: action.message,
+        loading: false,
       }
     case GET_ERRORS:
       return {

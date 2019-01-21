@@ -76,7 +76,7 @@ export const logoutUser = () => dispatch => {
 
 // Send Password reset email
 export const sendResetEmail = email => dispatch => {
-  dispatch({ type: USER_LOADING })
+  dispatch(setUserLoading())
   axios
     .post('/api/sendResetEmail', email)
     .then(res => {
