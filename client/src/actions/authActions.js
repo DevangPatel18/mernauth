@@ -64,6 +64,14 @@ export const setUserLoading = () => {
   }
 }
 
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: GET_ERRORS,
+    payload: {},
+  }
+}
+
 // Log user out
 export const logoutUser = () => dispatch => {
   // Remove token from local storage

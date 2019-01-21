@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, navigate } from 'gatsby'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { registerUser } from '../actions/authActions'
+import { registerUser, clearErrors } from '../actions/authActions'
 import classnames from 'classnames'
 
 class Register extends Component {
@@ -22,6 +22,7 @@ class Register extends Component {
     if (this.props.auth.isAuthenticated) {
       navigate('/dashboard')
     }
+    this.props.clearErrors()
   }
 
   static getDerivedStateFromProps(nextProps) {
@@ -150,6 +151,7 @@ class Register extends Component {
 
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 }
@@ -161,5 +163,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { registerUser, clearErrors }
 )(Register)
