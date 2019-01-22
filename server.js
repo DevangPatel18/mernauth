@@ -12,6 +12,7 @@ const items = require('./routes/api/items');
 const sendResetEmail = require('./routes/api/sendResetEmail');
 const resetUrlStatus = require('./routes/api/resetUrlStatus');
 const passwordReset = require('./routes/api/passwordReset');
+const statistics = require('./routes/api/statistics');
 const app = express();
 
 app.use(
@@ -45,6 +46,8 @@ app.use('/api/sendResetEmail', sendResetEmail);
 app.use('/api/resetUrlStatus', resetUrlStatus);
 
 app.use('/api/passwordReset', passwordReset);
+
+app.use('/api/statistics', statistics);
 
 const port = process.env.PORT || 5000;
 

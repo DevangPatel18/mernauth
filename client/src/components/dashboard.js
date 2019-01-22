@@ -50,6 +50,21 @@ class Dashboard extends Component {
             >
               Favitems
             </button>
+            <button
+              style={{
+                marginLeft: '2rem',
+                width: '150px',
+                borderRadius: '3px',
+                letterSpacing: '1.5px',
+                marginTop: '1rem',
+              }}
+              onClick={() => {
+                navigate('/statistics')
+              }}
+              className="btn btn-large waves-effect orange hoverable white-text"
+            >
+              Statistics
+            </button>
           </div>
         </div>
       </div>
