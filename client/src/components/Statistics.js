@@ -41,7 +41,7 @@ async function configure() {
 }
 
 const columns = [
-  { title: 'Name', field: 'playerName', width: 200 },
+  { title: 'Name', field: 'playerName', width: 200, frozen: true },
   { title: 'G', field: 'goals' },
   { title: 'A', field: 'assists' },
   { title: 'P', field: 'points' },
@@ -91,12 +91,13 @@ class Statistics extends Component {
         <h4>Stats go here!</h4>
         <p className="flow-text grey-text text-darken-1" />
         <ReactTabulator
-          style={{ margin: '2rem' }}
+          style={{ margin: '2rem', fontFamily: 'Arial' }}
           columns={columns}
           data={this.state.stats}
           options={{
             pagination: 'local',
             paginationSize: 20,
+            layout: 'fitDataFill',
           }}
         />
         <Link
