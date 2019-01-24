@@ -1,12 +1,44 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
-import axios from 'axios'
 import 'react-tabulator/lib/styles.css' // required styles
 import 'react-tabulator/lib/css/tabulator.min.css' // theme
 import { ReactTabulator } from 'react-tabulator' // for React 15.x, use import { React15Tabulator }
+import { setup } from 'axios-cache-adapter'
+import localforage from 'localforage'
+import memoryDriver from 'localforage-memoryStorageDriver'
 
 // Marking event handler as 'passive' in response to console violations
 require('default-passive-events')
+
+// `async` wrapper to configure `localforage` and instantiate `axios` with `axios-cache-adapter`
+async function configure() {
+  // Register the custom `memoryDriver` to `localforage`
+  await localforage.defineDriver(memoryDriver)
+
+  // Create `localforage` instance
+  const store = localforage.createInstance({
+    // List of drivers used
+    driver: [
+      localforage.INDEXEDDB,
+      localforage.LOCALSTORAGE,
+      memoryDriver._driver,
+    ],
+    // Prefix all storage keys to prevent conflicts
+    name: 'my-cache',
+  })
+
+  // Create `axios` instance with pre-configured `axios-cache-adapter` using a `localforage` store
+  return setup({
+    // `axios` options
+    // baseURL: 'http://some-rest.api',
+
+    // `axios-cache-adapter` options
+    cache: {
+      maxAge: 15 * 60 * 1000,
+      store, // Pass `localforage` store to `axios-cache-adapter`
+    },
+  })
+}
 
 const columns = [
   { title: 'Name', field: 'playerName', width: 200 },
@@ -41,14 +73,16 @@ class Statistics extends Component {
   }
 
   async componentDidMount() {
-    let nhlData = await axios
-      .get('/api/statistics')
-      .then(res => res.data)
-      .catch(err => {
-        console.log(err)
-      })
+    configure().then(async api => {
+      const nhlData = await api
+        .get('/api/statistics')
+        .then(res => res.data)
+        .catch(err => {
+          console.log(err)
+        })
 
-    this.setState({ stats: nhlData })
+      this.setState({ stats: nhlData })
+    })
   }
 
   render() {
