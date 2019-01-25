@@ -113,31 +113,51 @@ class Statistics extends Component {
     }
 
     return (
-      <div>
-        <h4>Stats go here!</h4>
-        <FormControl>
-          <InputLabel htmlFor="yearStart" />
-          <NativeSelect
-            value={this.state.yearStart}
-            onChange={this.handleChange('yearStart')}
-            input={<Input name="yearStart" id="yearStart" />}
+      <div style={{ fontFamily: 'Arial' }}>
+        <h4>Player Statistics</h4>
+        <div className="row valign-wrapper">
+          <div
+            style={{
+              paddingRight: '1rem',
+              fontWeight: 'boldest',
+              height: '100%',
+            }}
           >
-            {optionsStart.map(option => option)}
-          </NativeSelect>
-        </FormControl>
-        <div> to </div>
-        <FormControl>
-          <InputLabel htmlFor="yearEnd" />
-          <NativeSelect
-            value={this.state.yearEnd}
-            onChange={this.handleChange('yearEnd')}
-            input={<Input name="yearEnd" id="yearEnd" />}
+            Season Range
+          </div>
+          <FormControl>
+            <InputLabel htmlFor="yearStart" />
+            <NativeSelect
+              value={this.state.yearStart}
+              onChange={this.handleChange('yearStart')}
+              input={<Input name="yearStart" id="yearStart" />}
+            >
+              {optionsStart.map(option => option)}
+            </NativeSelect>
+          </FormControl>
+          <span style={{ padding: '0 1rem' }}> to </span>
+          <FormControl>
+            <InputLabel htmlFor="yearEnd" />
+            <NativeSelect
+              value={this.state.yearEnd}
+              onChange={this.handleChange('yearEnd')}
+              input={<Input name="yearEnd" id="yearEnd" />}
+            >
+              {optionsEnd.map(option => option)}
+            </NativeSelect>
+          </FormControl>
+        </div>
+        <div className="row">
+          <button
+            className="btn waves-effect waves-light"
+            type="submit"
+            name="action"
           >
-            {optionsEnd.map(option => option)}
-          </NativeSelect>
-        </FormControl>
+            generate data
+            <i className="material-icons right" />
+          </button>
+        </div>
         <ReactTabulator
-          style={{ margin: '2rem', fontFamily: 'Arial' }}
           columns={columns}
           data={this.state.stats}
           options={{
