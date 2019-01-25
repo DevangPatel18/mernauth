@@ -43,6 +43,7 @@ async function configure() {
 
 const columns = [
   { title: 'Name', field: 'playerName', width: 200, frozen: true },
+  { title: 'Season', field: 'seasonId' },
   { title: 'G', field: 'goals' },
   { title: 'A', field: 'assists' },
   { title: 'P', field: 'points' },
@@ -90,6 +91,23 @@ class Statistics extends Component {
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value })
+  }
+
+  submitQuery = e => {
+    e.preventDefault()
+    const { yearStart, yearEnd } = this.state
+
+    configure().then(async api => {
+      const nhlData = await api
+        .put('/api/statistics', { data: { yearStart, yearEnd } })
+        .then(res => res.data)
+        .catch(err => {
+          console.log(err)
+        })
+
+      console.log(`Received data from ${yearStart} to ${yearEnd} seasons`)
+      this.setState({ stats: nhlData })
+    })
   }
 
   render() {
@@ -152,6 +170,7 @@ class Statistics extends Component {
             className="btn waves-effect waves-light"
             type="submit"
             name="action"
+            onClick={this.submitQuery}
           >
             generate data
             <i className="material-icons right" />
