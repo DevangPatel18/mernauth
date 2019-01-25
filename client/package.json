@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@material-ui/core": "^3.9.0",
     "@reach/router": "^1.2.1",
     "axios": "^0.18.0",
     "axios-cache-adapter": "^2.2.1",

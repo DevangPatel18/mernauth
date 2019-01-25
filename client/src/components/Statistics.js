@@ -6,6 +6,7 @@ import { ReactTabulator } from 'react-tabulator' // for React 15.x, use import {
 import { setup } from 'axios-cache-adapter'
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
+import { FormControl, InputLabel, Input, NativeSelect } from '@material-ui/core'
 
 // Marking event handler as 'passive' in response to console violations
 require('default-passive-events')
@@ -69,6 +70,8 @@ class Statistics extends Component {
     super()
     this.state = {
       stats: [],
+      yearStart: '20182019',
+      yearEnd: '20182019',
     }
   }
 
@@ -85,11 +88,54 @@ class Statistics extends Component {
     })
   }
 
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value })
+  }
+
   render() {
+    const { yearStart } = this.state
+    const yearCutoff = parseInt(yearStart.slice(0, 4), 10)
+    let optionsStart = []
+    let optionsEnd = []
+
+    for (let i = 1917; i < 2019; i++) {
+      optionsStart.push(
+        <option value={`${i}${i + 1}`} key={`${i}-start`}>{`${i}-${i +
+          1}`}</option>
+      )
+    }
+
+    for (let i = yearCutoff; i < 2019; i++) {
+      optionsEnd.push(
+        <option value={`${i}${i + 1}`} key={`${i}-end`}>{`${i}-${i +
+          1}`}</option>
+      )
+    }
+
     return (
       <div>
         <h4>Stats go here!</h4>
-        <p className="flow-text grey-text text-darken-1" />
+        <FormControl>
+          <InputLabel htmlFor="yearStart" />
+          <NativeSelect
+            value={this.state.yearStart}
+            onChange={this.handleChange('yearStart')}
+            input={<Input name="yearStart" id="yearStart" />}
+          >
+            {optionsStart.map(option => option)}
+          </NativeSelect>
+        </FormControl>
+        <div> to </div>
+        <FormControl>
+          <InputLabel htmlFor="yearEnd" />
+          <NativeSelect
+            value={this.state.yearEnd}
+            onChange={this.handleChange('yearEnd')}
+            input={<Input name="yearEnd" id="yearEnd" />}
+          >
+            {optionsEnd.map(option => option)}
+          </NativeSelect>
+        </FormControl>
         <ReactTabulator
           style={{ margin: '2rem', fontFamily: 'Arial' }}
           columns={columns}
